@@ -10,7 +10,7 @@ from app.models.usuario import Usuario
 
 auth_bp = Blueprint("auth", __name__)#cria um objeto que administra um conjunto de rotas
 
-@auth_bp.route("/register", methods=["POST"])
+@auth_bp.route("/register", methods=['GET','POST'])
 def register():
     dados = request.get_json()
 
