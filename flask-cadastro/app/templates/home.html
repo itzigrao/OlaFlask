@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+ 
+<main>
+    <section class="container">
+        <div>
+            <h1>Bem-vindo ao home, {{ current_user.nome }}</h1>
+            
+        </div>
+    </section>
+</main>
+
+
+{% endblock %}

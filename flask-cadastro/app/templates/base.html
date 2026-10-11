@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <script src="../static/main.js" defer></script>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+    
+    
+    
+
+    <header class="top-container">
+        <div class="card-title">
+            <h1>Seja bem-vindo, Registro e login.</h1>
+            <p>Segurança de dados é aqui</p>
+            <nav class="menu">
+                {% if current_user.is_authenticated %}
+                <a href="/home">Início</a>
+                <a href="/logout" id="logoutButton">logout</a>
+                {% else %}
+                <a href="/login">Login</a>
+                <a href="/register">Registro</a>
+                {% endif %}
+            </nav>
+        </div>
+
+    </header>
+
+
+    <footer>
+        {% if current_user.is_authenticated %}
+            
+        {% endif %}
+    </footer>
+
+    {% block content %}
+    {% endblock %}
+    
+    
+</body>
+</html>

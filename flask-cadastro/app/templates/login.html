@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+<main class="container">
+    <div class="card">
+        <form id="loginForm">
+            <label for="loginEmail">Email: </label>
+            <input type="email" id="loginEmail" name="email" placeholder="Digite seu email" required><br>
+            <label for="loginSenha">Senha: </label>
+            <input type="password" id="loginSenha" name="senha" placeholder="Digite sua senha"><br>
+            <button class="btn" type="submit">Entrar</button>
+        </form>
+        
+        <p id="loginMessage" role="status"></p>
+        
+        
+    </div>
+</main>
+
+
+
+{% endblock %}

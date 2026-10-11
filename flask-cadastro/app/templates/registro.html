@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Registro{% endblock %}
+
+{% block content %}
+ 
+<main class="container">
+    <div class="card">
+        <h1>Registre-se</h1>
+        <form id="registerForm">
+            <label for="registerNome">Nome: </label>
+            <input type="text" id="registerNome" name="Nome" placeholder="Digite seu nome" required><br>
+            <label for="registerEmail">Email: </label>
+            <input type="email" id="registerEmail" name="Email" placeholder="Exemplo@gmail.com" required><br>
+            <label for="registerSenha">Senha: </label>
+            <input type="password" id="registerSenha" name="Senha" placeholder="Digite uma senha" required><br>
+            <button class="btn" type="submit">Entrar</button>
+        </form>
+        <div class="mensagem-js">
+            
+            <p id="registerMessage" role="status"></p>
+        </div>
+
+    </div>
+</main>
+
+{% endblock %}
