@@ -48,7 +48,6 @@ def register():
             email=email,
             password_hash=password_hash,
         )
-
         
         try:
             db.session.add(usuario)
@@ -58,8 +57,7 @@ def register():
             db.session.rollback()
             return {"Erro": "Email já cadastrado"}, 409
 
-        
-
+    
         return {
             "id": usuario.id,
             "mensagem": "Usuário cadastrado",

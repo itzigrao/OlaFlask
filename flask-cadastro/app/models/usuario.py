@@ -16,3 +16,5 @@ class Usuario(db.Model, UserMixin):
         nullable=False,
         default="user"
         )
+
+    goals = db.relationship("Goal", back_populates="usuario")
