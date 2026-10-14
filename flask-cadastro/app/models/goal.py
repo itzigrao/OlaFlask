@@ -7,7 +7,7 @@ class Goal(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     titulo = db.Column(db.String(60), nullable=False)
-    descricao = db.Column(db.String(120))
+    descricao = db.Column(db.String(200))
 
     usuario_id = db.Column(db.Integer, db.ForeignKey("usuario.id"), nullable=False)
 

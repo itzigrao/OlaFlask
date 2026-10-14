@@ -1,6 +1,5 @@
 const loginForm = document.getElementById('loginForm');
 
-
 if (loginForm) {
     loginForm.addEventListener("submit", async function(event) {
         event.preventDefault(); //* impede o envio tradicional do formulário ou a navegacao href
@@ -105,37 +104,113 @@ function redirecionarDepois(destino, tempo = 650) {
 
 }
 
+const formGoal = document.getElementById('formGoal');
 
-// function exibirMensagemRedirecionar(elemento, mensagem, destino) {
-//     elemento.textContent = mensagem;
+if (formGoal) {
+    formGoal.addEventListener("submit", async function(event){
+        event.preventDefault()
 
-//     setTimeout(function(){
-//         window.location.href = destino;
-//     }, 1500);
-// }
+        const titulo = document.getElementById('goalTitulo').value;
+        const descricao = document.getElementById('goalDescricao').value;
 
-// const loginMessage = documento.getElementById('loginMessage');
+        const dados = {
+            titulo: titulo,
+            descricao: descricao,
+        }
 
-// if (resposta.ok) {
-//     exibirMensagemRedirecionar(
-//         loginMessage,
-//         resultado.mensagem,
-//         resultado.redirect
-//     ); 
-// } else { 
-//     loginMessage.textContent = resultado.Erro;
-// }
+        const resposta = await fetch("/create_goal", {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(dados)
 
-// const registerMessage = document.getElementById('registerMessage');
+        });
 
-// if (resposta.ok) {
-//     exibirMensagemRedirecionar(
-//         registerMessage,
-//         resposta.mensagem,
-//         resposta.redirect
-//     );
-// } else {
-//     registerMessage.textContent = resultado.Erro;
-// }
+        const resultado = await resposta.json()
+        if (resposta.ok) {
+            const goalMessage = document.getElementById('goalMessage')
+            goalMessage.textContent = resultado.mensagem
+            redirecionarDepois(resultado.redirect);
+        } else {
+            console.log(resultado.Erro)
+            const goalMessage = document.getElementById('goalMessage')
+            goalMessage.textContent = resultado.Erro;
+        }
+    })
+}
+
+async function carregarGoals() {
+    const listGoals = document.getElementById('listGoals');
+
+    if (!listGoals) {
+        return;
+    }
+
+    try {
+        const resposta = await fetch('/list_goal', {
+            method: "GET"
+
+        });
+
+        const resultado = await resposta.json()
+
+        if (!resposta.ok) {
+            throw new Error(resultado.Erro);
+        }
+
+        listGoals.innerHTML = "";
+
+        resultado.lista.forEach(function(goal){
+            const item = document.createElement('li');
+            item.classList.add('verGoal');
+            item.dataset.goalId = goal.id;
+
+            const titulo = document.createElement('span');
+            titulo.textContent = goal.titulo;
+
+            const descricao = document.createElement('span');
+            descricao.textContent = goal.descricao || "";
+
+            const editarButton = document.createElement("button");
+            editarButton.type = "button";
+            editarButton.classList.add("editarGoal");
+            editarButton.dataset.goalId = goal.id;
+            editarButton.textContent = "Editar";
+
+            const deletarButton = document.createElement("button");
+            deletarButton.type = "button";
+            deletarButton.classList.add("deletarGoal");
+            deletarButton.dataset.goalId = goal.id;
+            deletarButton.textContent = "Deletar";
+
+            item.append(
+                titulo,
+                " | ",
+                descricao,
+                " | ",
+                editarButton,
+                " | " ,
+                deletarButton
+            );
+
+            listGoals.appendChild(item);
+        });
+    } catch (erro) {
+        const listgoalMessage = document.getElementById('listgoalMessage');
+
+        if (goalMessage){
+        goalMessage.textContent = erro.message;
+        }
+        console.erro;
+    }
+
+}
+
+const listGoals = document.getElementById('listGoals');
+
+if (listGoals) {
+    carregarGoals();
+}
 
  

@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
-    <script src="../static/main.js" defer></script>
-    <link rel="stylesheet" href="../static/style.css">
+    <script src="{{url_for('static', filename='main.js')}}" defer></script>
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css') }}">
 </head>
 <body>
     
@@ -28,9 +28,13 @@
         <nav>
             <ul>
                 {% if current_user.is_authenticated %}
-                <li><a href="/home">Início</a></li>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/crud">Objetivos</a></li>
+                <!-- <li><a href="/list_goal">Listar</a></li> -->
                 <li><a href="/logout" id="logoutButton">logout</a></li>
+                
                 {% else %}
+                
                 <li><a href="/login">Login</a></li>
                 <li><a href="/register">Registro</a></li>
                 {% endif %}

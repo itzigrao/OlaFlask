@@ -16,7 +16,7 @@ goal_bp = Blueprint("goal", __name__)
 def create_goal():
 
     if request.method == 'GET':
-        return render_template('create_goal.html')
+        return render_template('crud.html')
 
     elif request.method == 'POST':
 
@@ -24,6 +24,9 @@ def create_goal():
 
         titulo = dados.get("titulo")
         descricao = dados.get("descricao")
+
+        if titulo is not None:
+            titulo = titulo.strip()
 
         if not titulo:
             return {"Erro": "Título obrigatório"}, 400
@@ -33,10 +36,11 @@ def create_goal():
         if goal_existente:
             return {"Erro": "Objetivo já existe"}, 409
 
+
         novo_goal = Goal(
             titulo=titulo,
             descricao=descricao,
-            usuario_id=current_user
+            usuario_id=current_user.id
         )
 
         try:
@@ -45,18 +49,19 @@ def create_goal():
 
         except IntegrityError:
             db.session.rollback()
-            return {"Erro", "Operacional. Tente novamente mais tarde"}, 409
+            return {"Erro": "Operacional. Tente novamente mais tarde"}, 409
 
         return {
             "goal_id": novo_goal.id,
             "mensagem": "Objetivo cadastrado",
-            "redirect": "/list_goal"
+            "redirect": "/crud"
         }, 201
 
 
 @goal_bp.route('/list_goal', methods=['GET'])
 @login_required
 def list_goal():
+
     goals = current_user.goals
 
     lista_goal = []
@@ -68,11 +73,26 @@ def list_goal():
             "descricao": goal.descricao
         })
 
+    if lista_goal is None:
+        return {
+            "usuario_id": current_user.id,
+            "lista": lista_goal,
+            "Erro": "Lista sem objetivos",
+            "redirect": "/create_goal"
+            }, 400
 
-    return jsonify(lista_goal), 201
 
-@login_required
+    return {
+        "usuario_id": current_user.id,
+        "lista": lista_goal,
+        "mensagem": "Vizualização de lista de objetivos OK",
+    },200
+
+# jsonify(lista_goal), 201
+
+
 @goal_bp.route('/update_goal/<int:goal_id>', methods=['PATCH'])
+@login_required
 def update_goal(goal_id):
 
     goal = Goal.query.filter_by(
@@ -95,12 +115,15 @@ def update_goal(goal_id):
         return {"Erro": "Título obrigatório"}, 400
 
 
-    goal_existente = Goal.query.filter_by(titulo=novo_titulo, usuario_id=current_user.id).first()
-
-    if goal_existente:
-        return {"Erro": "objetivo já existe"}
-
+    goal_existente = Goal.query.filter_by(
+        Goal.titulo == novo_titulo,
+        Goal.usuario_id == current_user.id,
+        Goal.id != goal_id
+        ).first()
     
+    if goal_existente:
+        return {"Erro": "objetivo já existe"}, 409
+
     goal.titulo = novo_titulo
 
     if nova_descricao is not None:
@@ -120,6 +143,39 @@ def update_goal(goal_id):
         "descricao": goal.descricao,
         "mensagem": "Objetivo atualizado com sucesso"
     }, 200
+
+@goal_bp.route('/delete_goal/<int:goal_id>', methods=['POST'])
+@login_required
+def delete_goal (goal_id):
+
+    goal = Goal.query.filter_by(
+        id = goal_id,
+        usuario = current_user
+    ).first()
+
+    if goal is None:
+        return {"Erro":"Objetivo selecionado não existe"}
+
+    try:
+        db.session.delete(goal)
+        db.session.commit()
+    except IntegrityError:
+        db.session.rollback()
+        return {"Erro:": "Erro inesperado. Tente novamente mais tarde."}, 409
+
+    return {
+        "goal_id": goal.id,
+        "mensagem": "Objetivo deletado com sucesso",
+        "redirect": "/list_goal"
+    }
+
+
+@goal_bp.route("/crud")
+@login_required
+def crud():
+    return render_template("crud.html")
+
+
 
     
     
