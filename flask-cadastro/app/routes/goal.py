@@ -115,7 +115,7 @@ def update_goal(goal_id):
         return {"Erro": "Título obrigatório"}, 400
 
 
-    goal_existente = Goal.query.filter_by(
+    goal_existente = Goal.query.filter(
         Goal.titulo == novo_titulo,
         Goal.usuario_id == current_user.id,
         Goal.id != goal_id

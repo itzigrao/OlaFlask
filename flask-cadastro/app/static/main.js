@@ -199,8 +199,8 @@ async function carregarGoals() {
     } catch (erro) {
         const listgoalMessage = document.getElementById('listgoalMessage');
 
-        if (goalMessage){
-        goalMessage.textContent = erro.message;
+        if (listgoalMessage){
+        listgoalMessage.textContent = erro.message;
         }
         console.erro;
     }
@@ -213,4 +213,14 @@ if (listGoals) {
     carregarGoals();
 }
 
+const btnDeletar = document.getElementsByClassName('deletarGoal')
+
+if (btnDeletar) {
+    formGoal.document.addEventListener("submit", async function(event) {
+        event.preventDefault()
+
+
+    
+    });
+}
  
