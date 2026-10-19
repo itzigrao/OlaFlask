@@ -154,14 +154,14 @@ def delete_goal (goal_id):
     ).first()
 
     if goal is None:
-        return {"Erro":"Objetivo selecionado não existe"}
+        return {"Erro":"Objetivo selecionado não existe"}, 404
 
     try:
         db.session.delete(goal)
         db.session.commit()
     except IntegrityError:
         db.session.rollback()
-        return {"Erro:": "Erro inesperado. Tente novamente mais tarde."}, 409
+        return {"Erro": "Erro inesperado. Tente novamente mais tarde."}, 409
 
     return {
         "goal_id": goal.id,

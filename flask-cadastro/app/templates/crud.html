@@ -20,7 +20,8 @@
             <label for="goalDescricao">Descrição: </label>
             <input class="descricao-area" type="text" id="goalDescricao" name="Descricao" placeholder="Descrição para exemplificar o objetivo"><br>
  
-            <button class="btn" type="submit">Criar</button><br>
+            <button class="btn" id="submitGoalButton" type="submit">Criar</button><br>
+            <button class="btn-cancelar" id="cancelEditButton" type="button" hidden>Cancelar Edição</button>
             <p id="goalMessage"></p>
 
         </form>
@@ -28,13 +29,14 @@
         
             
     </section>
-    <div>
-
-        {% if current_user.is_authenticated %}
-        <h2>Lista de objetivos: </h2>
-        <ul class="list-goals" id="listGoals"></ul>
-        <p id="listgoalMessage"></p> 
+    <div class="card-list">
+        <div class="list">
+            {% if current_user.is_authenticated %}
+            <h2>Lista de objetivos: </h2>
+            <ul class="list-goals" id="listGoals"></ul>
+            <p id="listgoalMessage"></p> 
         {% endif %}
+        </div>
     </div>
 
 </main>
