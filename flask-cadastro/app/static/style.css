@@ -145,9 +145,18 @@ button:hover{
 }
 
 .list li:hover{
-    transform:scale(1.1);
+    transform:perspective(2cap);
     cursor: default;
    
+}
+
+span {
+    padding: 5px;
+    border-radius: 2cap;
+    border: 2px solid white;
+    box-shadow: 0 0 5px rgba(0,51,102,0.3);
+    background-color: lightblue;
+
 }
 
 
