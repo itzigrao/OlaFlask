@@ -219,7 +219,7 @@ if (listGoals) {
             return;
         }
 
-        const listgoalMessage = document.getElementById('listgoalMessage')
+        const listgoalMessage = document.getElementById('listgoalMessage');
         
         try {
             const goalId = deletarButton.dataset.goalId;
@@ -235,7 +235,7 @@ if (listGoals) {
                 method: 'POST'
             });
 
-            const resultado = await resposta.json()
+            const resultado = await resposta.json();
 
             if (!resposta.ok) {
                 throw new Error(resultado.Erro || "Não foi possível excluir");
